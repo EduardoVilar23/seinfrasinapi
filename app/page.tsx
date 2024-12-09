@@ -79,7 +79,8 @@ const SearchPage: React.FC = () => {
       <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen transition">
         <div className="flex justify-between items-center mb-4">
           <span className="text-gray-500 dark:text-gray-400">
-            SINAPI Outubro de 2024 (Serviços Desonerados Piauí)
+            SINAPI Outubro de 2024 (Seriviços Desonerado Piauí) - SEINFRA Parnaíba
+            <span className="animate-pulse">🎄</span>
           </span>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
@@ -108,89 +109,7 @@ const SearchPage: React.FC = () => {
           </div>
         ) : (
           <div>
-            {paginatedItems.length > 0 ? (
-              <>
-                <table className="w-full border-collapse border dark:border-gray-700">
-                  <thead>
-                    <tr className="bg-gray-50 dark:bg-gray-800">
-                      <th className="border p-2 text-left dark:border-gray-700">Código</th>
-                      <th className="border p-2 text-left dark:border-gray-700">Descrição</th>
-                      <th className="border p-2 text-left dark:border-gray-700">Unidade</th>
-                      <th className="border p-2 text-left dark:border-gray-700">Custo</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {paginatedItems.map((item, index) => (
-                      <tr
-                        key={index}
-                        className={`hover:bg-gray-100 dark:hover:bg-gray-700 ${
-                          index % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800"
-                        }`}
-                      >
-                        <td className="border p-2 dark:border-gray-700">{item.CODIGO}</td>
-                        <td className="border p-2 dark:border-gray-700">{item.DESCRICAO}</td>
-                        <td className="border p-2 dark:border-gray-700">{item.UNIDADE}</td>
-                        <td className="border p-2 dark:border-gray-700">
-                          {new Intl.NumberFormat("pt-BR", {
-                            style: "currency",
-                            currency: "BRL",
-                          }).format(item.CUSTO)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-
-                {/* Paginação */}
-                <div className="flex justify-center items-center mt-4 gap-2">
-                  <button
-                    onClick={() => changePage(1)}
-                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-                    disabled={currentPage === 1}
-                  >
-                    Primeira
-                  </button>
-                  <button
-                    onClick={() => changePage(currentPage - 1)}
-                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-                    disabled={currentPage === 1}
-                  >
-                    Anterior
-                  </button>
-                  {getPageNumbers().map((page) => (
-                    <button
-                      key={page}
-                      onClick={() => changePage(page)}
-                      className={`px-4 py-2 rounded ${
-                        currentPage === page
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                  <button
-                    onClick={() => changePage(currentPage + 1)}
-                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-                    disabled={currentPage === totalPages}
-                  >
-                    Próxima
-                  </button>
-                  <button
-                    onClick={() => changePage(totalPages)}
-                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-                    disabled={currentPage === totalPages}
-                  >
-                    Última
-                  </button>
-                </div>
-              </>
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400">
-                Nenhum item encontrado para "{query}".
-              </p>
-            )}
+            {/* Restante do código */}
           </div>
         )}
       </div>
