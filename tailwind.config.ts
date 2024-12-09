@@ -1,5 +1,14 @@
 import type { Config } from "tailwindcss";
 
+module.exports = {
+  darkMode: 'class', // Habilita a classe 'dark' para temas
+  content: ['./app/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
