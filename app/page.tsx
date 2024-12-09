@@ -102,6 +102,11 @@ const SearchPage: React.FC = () => {
             className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
+        <div className="mb-3">
+          <span>
+            🌐 Powerd by <a href="https://eduardovilar.com" className="underline text-blue-500">eduardovilar.com</a>
+          </span>
+        </div>
 
         {loading ? (
           <div role="status" className="animate-pulse">
