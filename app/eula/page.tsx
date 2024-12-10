@@ -1,3 +1,5 @@
+import React from "react";
+
 export const metadata = {
   title: "Termos de Uso - SEINFRA Parnaíba",
   description: "Leia os termos de uso do sistema SEINFRA Parnaíba.",
