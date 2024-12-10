@@ -100,12 +100,12 @@ const SearchPage: React.FC = () => {
                 setQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border dark:text-black border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div className="mb-3">
             <span>
-              🌐 Powerd by <a href="https://eduardovilar.com" className="underline text-blue-700">eduardovilar.com</a>
+              🌐 Powerd by <a href="https://eduardovilar.com" className="underline text-blue-700 dark:text-blue-200">eduardovilar.com</a>
             </span>
           </div>
 
