@@ -104,7 +104,7 @@ const SearchPage: React.FC = () => {
         </div>
         <div className="mb-3">
           <span>
-            🌐 Powerd by <a href="https://eduardovilar.com" className="underline text-blue-500">eduardovilar.com</a>
+            🌐 Powerd by <a href="https://eduardovilar.com" className="underline text-blue-700">eduardovilar.com</a>
           </span>
         </div>
 
