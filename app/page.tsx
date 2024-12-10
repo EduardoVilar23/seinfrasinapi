@@ -35,7 +35,8 @@ const SearchPage: React.FC = () => {
       queryWords.every(
         (word) =>
           item.DESCRICAO.toLowerCase().includes(word) ||
-          item.UNIDADE.toLowerCase().includes(word)
+          item.UNIDADE.toLowerCase().includes(word) ||
+          item.CODIGO.toLowerCase().includes(word)
       )
     );
   }, [query, sinapiData]);
