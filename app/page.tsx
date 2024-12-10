@@ -89,115 +89,117 @@ const SearchPage: React.FC = () => {
             {isDarkMode ? "Modo Claro" : "Modo Escuro"}
           </button>
         </div>
-        <h1 className="text-2xl font-bold mb-4">SEINFRA Parnaíba - SINAPI</h1>
-        <div className="mb-6 flex items-center gap-4">
-          <input
-            type="text"
-            placeholder="Faça uma pesquisa..."
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setCurrentPage(1);
-            }}
-            className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div className="mb-3">
-          <span>
-            🌐 Powerd by <a href="https://eduardovilar.com" className="underline text-blue-700">eduardovilar.com</a>
-          </span>
-        </div>
-
-        {loading ? (
-          <div role="status" className="animate-pulse">
-            <span>🤓🤚 Carregando...</span>
+        <main>
+          <h1 className="text-2xl font-bold mb-4">SEINFRA Parnaíba - SINAPI</h1>
+          <div className="mb-6 flex items-center gap-4">
+            <input
+              type="text"
+              placeholder="Faça uma pesquisa..."
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
-        ) : (
-          <div>
-            {paginatedItems.length > 0 ? (
-              <>
-                <table className="w-full border-collapse border dark:border-gray-700">
-                  <thead>
-                    <tr className="bg-gray-50 dark:bg-gray-800">
-                      <th className="border p-2 text-left dark:border-gray-700">Código</th>
-                      <th className="border p-2 text-left dark:border-gray-700">Descrição</th>
-                      <th className="border p-2 text-left dark:border-gray-700">Unidade</th>
-                      <th className="border p-2 text-left dark:border-gray-700">Custo</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {paginatedItems.map((item, index) => (
-                      <tr
-                        key={index}
-                        className={`hover:bg-gray-100 dark:hover:bg-gray-700 ${
-                          index % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800"
+          <div className="mb-3">
+            <span>
+              🌐 Powerd by <a href="https://eduardovilar.com" className="underline text-blue-700">eduardovilar.com</a>
+            </span>
+          </div>
+
+          {loading ? (
+            <div role="status" className="animate-pulse">
+              <span>🤓🤚 Carregando...</span>
+            </div>
+          ) : (
+            <div>
+              {paginatedItems.length > 0 ? (
+                <>
+                  <table className="w-full border-collapse border dark:border-gray-700">
+                    <thead>
+                      <tr className="bg-gray-50 dark:bg-gray-800">
+                        <th className="border p-2 text-left dark:border-gray-700">Código</th>
+                        <th className="border p-2 text-left dark:border-gray-700">Descrição</th>
+                        <th className="border p-2 text-left dark:border-gray-700">Unidade</th>
+                        <th className="border p-2 text-left dark:border-gray-700">Custo</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {paginatedItems.map((item, index) => (
+                        <tr
+                          key={index}
+                          className={`hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                            index % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800"
+                          }`}
+                        >
+                          <td className="border p-2 dark:border-gray-700">{item.CODIGO}</td>
+                          <td className="border p-2 dark:border-gray-700">{item.DESCRICAO}</td>
+                          <td className="border p-2 dark:border-gray-700">{item.UNIDADE}</td>
+                          <td className="border p-2 dark:border-gray-700">
+                            {new Intl.NumberFormat("pt-BR", {
+                              style: "currency",
+                              currency: "BRL",
+                            }).format(item.CUSTO)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  <div className="flex justify-center items-center mt-4 gap-2">
+                    <button
+                      className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
+                      onClick={() => changePage(1)}
+                      disabled={currentPage === 1}
+                    >
+                      Primeira
+                    </button>
+                    <button
+                      className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
+                      onClick={() => changePage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      Anterior
+                    </button>
+                    {getPageNumbers().map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => changePage(page)}
+                        className={`px-4 py-2 rounded ${
+                          currentPage === page
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600"
                         }`}
                       >
-                        <td className="border p-2 dark:border-gray-700">{item.CODIGO}</td>
-                        <td className="border p-2 dark:border-gray-700">{item.DESCRICAO}</td>
-                        <td className="border p-2 dark:border-gray-700">{item.UNIDADE}</td>
-                        <td className="border p-2 dark:border-gray-700">
-                          {new Intl.NumberFormat("pt-BR", {
-                            style: "currency",
-                            currency: "BRL",
-                          }).format(item.CUSTO)}
-                        </td>
-                      </tr>
+                        {page}
+                      </button>
                     ))}
-                  </tbody>
-                </table>
-
-                <div className="flex justify-center items-center mt-4 gap-2">
-                  <button
-                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-                    onClick={() => changePage(1)}
-                    disabled={currentPage === 1}
-                  >
-                    Primeira
-                  </button>
-                  <button
-                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-                    onClick={() => changePage(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    Anterior
-                  </button>
-                  {getPageNumbers().map((page) => (
                     <button
-                      key={page}
-                      onClick={() => changePage(page)}
-                      className={`px-4 py-2 rounded ${
-                        currentPage === page
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600"
-                      }`}
+                      className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
+                      onClick={() => changePage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
                     >
-                      {page}
+                      Próxima
                     </button>
-                  ))}
-                  <button
-                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-                    onClick={() => changePage(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
-                    Próxima
-                  </button>
-                  <button
-                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-                    onClick={() => changePage(totalPages)}
-                    disabled={currentPage === totalPages}
-                  >
-                    Última
-                  </button>
-                </div>
-              </>
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400">
-                {`Nenhum resultado para "` + query + `" 😔`}
-              </p>
-            )}
-          </div>
+                    <button
+                      className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
+                      onClick={() => changePage(totalPages)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Última
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <p className="text-gray-500 dark:text-gray-400">
+                  {`Nenhum resultado para "` + query + `" 😔`}
+                </p>
+              )}
+            </div>
         )}
+        </main>
       </div>
     </div>
   );
