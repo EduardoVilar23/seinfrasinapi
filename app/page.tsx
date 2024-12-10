@@ -204,6 +204,10 @@ const SearchPage: React.FC = () => {
             </div>
         )}
         </main>
+        <footer className="flex w-full justify-center items-center mt-5 flex-col">
+          <span>SEINFRA Parnaíba - SINAPI made by <a href="https://eduardovilar.com" className="underline text-blue-700 dark:text-blue-200">Eduardo Vilar</a></span>
+          <span>Ideias e sugestões para mail@eduardovilar.com</span>
+        </footer>
       </div>
     </div>
   );
