@@ -105,7 +105,7 @@ const SearchPage: React.FC = () => {
           </div>
           <div className="mb-5">
             <span>
-              🌐 Powerd by <a href="https://eduardovilar.com" className="underline text-blue-700 dark:text-blue-200">eduardovilar.com</a>
+              🌐 Powerd by <a href="https://eduardovilar.com" className="hover:underline text-blue-700 dark:text-blue-200">eduardovilar.com</a>
             </span>
           </div>
           {filteredItems.length > 0 && query && (
@@ -204,9 +204,30 @@ const SearchPage: React.FC = () => {
             </div>
         )}
         </main>
-        <footer className="flex w-full justify-center items-center mt-5 flex-col">
-          <span>SEINFRA Parnaíba - SINAPI made by <a href="https://eduardovilar.com" className="underline text-blue-700 dark:text-blue-200">Eduardo Vilar</a></span>
-          <span>Ideias e sugestões para mail@eduardovilar.com</span>
+        <footer className="mt-8 p-4 text-center text-gray-700 dark:text-gray-400">
+          <p>
+            &copy; {new Date().getFullYear()} SEINFRA Parnaíba. Made by {" "}
+            <a
+              href="https://eduardovilar.com"
+              className="text-blue-700 hover:underline dark:text-blue-200"
+            >
+              Eduardo Vilar
+            </a>
+            <br/>
+            <a
+              href="/eula"
+              className="text-blue-700 hover:underline dark:text-blue-200"
+            >
+              Termos de Uso
+            </a>
+            <span> | </span>
+            <a
+              href="https://github.com/EduardoVilar23/seinfrasinapi"
+              className="text-blue-700 hover:underline dark:text-blue-200"
+            >
+              veja este projeto no GitHub
+            </a>
+          </p>
         </footer>
       </div>
     </div>
