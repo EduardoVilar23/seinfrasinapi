@@ -91,7 +91,7 @@ const SearchPage: React.FC = () => {
           </button>
         </div>
         <main>
-          <h1 className="text-2xl font-bold mb-4">SEINFRA Parnaíba - SINAPI</h1>
+          <h1 className="text-2xl font-bold mb-4">DataSIN - SEINFRA Parnaíba</h1>
           <div className="mb-6 flex items-center gap-4">
             <input
               type="text"
@@ -207,7 +207,7 @@ const SearchPage: React.FC = () => {
         </main>
         <footer className="mt-8 p-4 text-center text-gray-700 dark:text-gray-400">
           <p>
-            &copy; {new Date().getFullYear()} SEINFRA Parnaíba. Made by {" "}
+            &copy; {new Date().getFullYear()} DataSIN. Made by {" "}
             <a
               href="https://eduardovilar.com"
               className="text-blue-700 hover:underline dark:text-blue-200"
