@@ -103,12 +103,16 @@ const SearchPage: React.FC = () => {
               className="border dark:text-black border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-5">
             <span>
               🌐 Powerd by <a href="https://eduardovilar.com" className="underline text-blue-700 dark:text-blue-200">eduardovilar.com</a>
             </span>
           </div>
-
+          {filteredItems.length > 0 && query && (
+            <p className="mb-4 text-gray-700 dark:text-gray-300">
+              {filteredItems.length} correspondência{filteredItems.length > 1 ? 's' : ''}
+            </p>
+          )}
           {loading ? (
             <div role="status" className="animate-pulse">
               <span>🤓🤚 Carregando...</span>
