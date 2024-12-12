@@ -14,7 +14,6 @@ const AdvancedSearchPage: React.FC = () => {
   const [query, setQuery] = useState("");
   const [unitQuery, setUnitQuery] = useState("");
   const [priceRange, setPriceRange] = useState({ min: 0, max: Infinity });
-  const [loading, setLoading] = useState(true);
   const [sinapiData, setSinapiData] = useState<Item[]>([]);
 
   useEffect(() => {
@@ -22,7 +21,6 @@ const AdvancedSearchPage: React.FC = () => {
       const response = await fetch("/data.json");
       const data: Item[] = await response.json();
       setSinapiData(data);
-      setLoading(false);
     };
 
     fetchData();
