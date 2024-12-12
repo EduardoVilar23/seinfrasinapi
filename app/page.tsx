@@ -1,5 +1,6 @@
 'use client'
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState, useEffect, useMemo } from "react";
 
 interface Item {
@@ -113,6 +114,9 @@ const SearchPage: React.FC = () => {
               <span className="text-sm">
                 Pesquise por palavras-chave, unidades de medida e/ou código.
               </span>
+              <Link href={'/advanced'}>
+                <span className="hover:underline text-blue-500">Pesquisa avançada</span>
+              </Link>
             </div>
           <div>
             <span>
