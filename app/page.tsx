@@ -232,7 +232,7 @@ const SearchPage: React.FC = () => {
               Veja este projeto no GitHub
             </a>
           </p>
-          <span>
+          <span className="text-xs">
             Ideias e sugestões para <a href="mailto:mail@eduardovilar.com" className="hover:underline text-blue-700 dark:text-blue-200">mail@eduardovilar.com</a>
           </span>
         </footer>
