@@ -10,14 +10,11 @@ interface Item {
   CUSTO: number;
 }
 
-const ITEMS_PER_PAGE = 30;
-
 const AdvancedSearchPage: React.FC = () => {
   const [query, setQuery] = useState("");
   const [unitQuery, setUnitQuery] = useState("");
   const [priceRange, setPriceRange] = useState({ min: 0, max: Infinity });
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
   const [sinapiData, setSinapiData] = useState<Item[]>([]);
 
   useEffect(() => {
@@ -48,31 +45,18 @@ const AdvancedSearchPage: React.FC = () => {
     });
   }, [query, unitQuery, priceRange, sinapiData]);
 
-  const paginatedItems = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [filteredItems, currentPage]);
-
-  const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
-
-  const changePage = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
-
   return (
     <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen">
       {/* Cabeçalho */}
       <header className="flex flex-col items-center mb-6">
         <Link href={'/'}>
-            <Image
+          <Image
             src="/logo.png"
             width={200}
             height={200}
             alt="dataSIN"
             className="mb-4"
-            />
+          />
         </Link>
         <h1 className="text-2xl font-bold">Pesquisa Avançada - DataSIN</h1>
         <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -87,10 +71,7 @@ const AdvancedSearchPage: React.FC = () => {
             type="text"
             placeholder="Pesquisar descrição..."
             value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={(e) => setQuery(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md mx-auto"
           />
 
@@ -99,10 +80,7 @@ const AdvancedSearchPage: React.FC = () => {
             type="text"
             placeholder="Pesquisar unidade..."
             value={unitQuery}
-            onChange={(e) => {
-              setUnitQuery(e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={(e) => setUnitQuery(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md mx-auto"
           />
 
@@ -136,21 +114,17 @@ const AdvancedSearchPage: React.FC = () => {
           </div>
         </div>
         <hr className="my-6 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
-        {filteredItems.length > 0 && (
-          <p className="mb-4 text-center text-gray-700 dark:text-gray-300">
-            {filteredItems.length} correspondência
-            {filteredItems.length > 1 ? "s" : ""} encontrada
-            {filteredItems.length > 1 ? "s" : ""}.
-          </p>
-        )}
-        {loading ? (
-          <div role="status" className="animate-pulse">
-            <span>🤓🤚 Carregando...</span>
-          </div>
-        ) : (
+        
+        {/* Exibir resultados somente após a pesquisa */}
+        {query || unitQuery || priceRange.min !== 0 || priceRange.max !== Infinity ? (
           <div>
-            {paginatedItems.length > 0 ? (
+            {filteredItems.length > 0 ? (
               <>
+                <p className="mb-4 text-center text-gray-700 dark:text-gray-300">
+                  {filteredItems.length} correspondência
+                  {filteredItems.length > 1 ? "s" : ""} encontrada
+                  {filteredItems.length > 1 ? "s" : ""}.
+                </p>
                 <table className="w-full border-collapse border dark:border-gray-700">
                   <thead>
                     <tr className="bg-gray-50 dark:bg-gray-800">
@@ -169,7 +143,7 @@ const AdvancedSearchPage: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {paginatedItems.map((item, index) => (
+                    {filteredItems.map((item, index) => (
                       <tr
                         key={index}
                         className={`hover:bg-gray-100 dark:hover:bg-gray-700 ${
@@ -204,7 +178,7 @@ const AdvancedSearchPage: React.FC = () => {
               </p>
             )}
           </div>
-        )}
+        ) : null}
       </main>
 
       {/* Rodapé */}
