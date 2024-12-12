@@ -1,4 +1,5 @@
 'use client'
+import Image from "next/image";
 import React, { useState, useEffect, useMemo } from "react";
 
 interface Item {
@@ -91,21 +92,27 @@ const SearchPage: React.FC = () => {
         </div>
         <main>
           <div className="mb-6 flex items-center gap-4 flex-col">
-          <h1 className="text-2xl font-bold transition">DataSIN - SEINFRA Parnaíba <span className="animate-pulse">🎄</span></h1>
-            <input
-              type="text"
-              placeholder="Faça uma pesquisa..."
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="border dark:text-black border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            <Image
+              src="/logo.png"
+              width={200}
+              height={200}
+              alt="dataSIN"
             />
-            <span className="text-sm">
-              Pesquise por palavras-chave, unidades de medida e/ou código
-            </span>
-          </div>
+            <h1 className="text-2xl font-bold transition">DataSIN - SEINFRA Parnaíba <span className="animate-pulse">🎄</span></h1>
+              <input
+                type="text"
+                placeholder="Faça uma pesquisa..."
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="border dark:text-black border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <span className="text-sm">
+                Pesquise por palavras-chave, unidades de medida e/ou código
+              </span>
+            </div>
           <div>
             <span>
               🌐 Powerd by <a href="https://eduardovilar.com" className="hover:underline text-blue-700 dark:text-blue-200">eduardovilar.com</a>
