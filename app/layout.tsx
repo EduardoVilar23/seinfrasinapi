@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "DataSIN - SEINFRA Parnaíba",
+  title: "dataSIN - Pesquisas na SINAPI",
   description: "Faça pesquisas na SINAPI-PI de forma mais rápida utilizando palavras chave.",
 };
 

@@ -81,7 +81,7 @@ const SearchPage: React.FC = () => {
       <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen transition">
         <div className="flex justify-between items-center mb-4">
           <span className="text-gray-500 dark:text-gray-400">
-            SINAPI Outubro de 2024 (Tabela de Serviços Desonerado Piauí)
+            Banco de Dados: PCI.817-01 - SINAPI Custo de Composições Outubro de 2024 (Piauí)
           </span>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
@@ -98,7 +98,8 @@ const SearchPage: React.FC = () => {
               height={200}
               alt="dataSIN"
             />
-            <h1 className="text-2xl font-bold transition">DataSIN - SEINFRA Parnaíba <span className="animate-pulse">🎄</span></h1>
+            {/* <h1 className="text-2xl font-bold transition">DataSIN - SEINFRA Parnaíba <span className="animate-pulse">🎄</span></h1> */}
+            <span>DataSIN - Seinfra Parnaíba</span>
               <input
                 type="text"
                 placeholder="Faça uma pesquisa..."
@@ -110,7 +111,7 @@ const SearchPage: React.FC = () => {
                 className="border dark:text-black border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <span className="text-sm">
-                Pesquise por palavras-chave, unidades de medida e/ou código
+                Pesquise por palavras-chave, unidades de medida e/ou código.
               </span>
             </div>
           <div>
