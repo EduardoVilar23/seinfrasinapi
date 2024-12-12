@@ -237,11 +237,11 @@ const SearchPage: React.FC = () => {
               href="https://github.com/EduardoVilar23/seinfrasinapi"
               className="text-blue-700 hover:underline dark:text-blue-200"
             >
-              Veja este projeto no GitHub
+              GitHub
             </a>
           </p>
           <span className="text-xs">
-            Ideias e sugestões para <a href="mailto:mail@eduardovilar.com" className="hover:underline text-blue-700 dark:text-blue-200">mail@eduardovilar.com</a>
+            Contribua com suas ideias: <a href="mailto:contato@datasin.com.br" className="hover:underline text-blue-700 dark:text-blue-200">contato@datasin.com.br</a>
           </span>
         </footer>
       </div>
