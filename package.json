@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/react-window": "^1.8.8",
     "@vercel/analytics": "^1.4.1",
     "next": "15.0.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-window": "^1.8.10",
+    "remove": "^0.1.5"
   },
   "devDependencies": {
     "@types/node": "^20",

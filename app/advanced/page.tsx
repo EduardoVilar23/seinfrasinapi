@@ -8,19 +8,37 @@ interface Item {
   DESCRICAO: string;
   UNIDADE: string;
   CUSTO: number;
+  FONTE: string;
 }
+
+const ITEMS_PER_PAGE = 50;
 
 const AdvancedSearchPage: React.FC = () => {
   const [query, setQuery] = useState("");
   const [unitQuery, setUnitQuery] = useState("");
   const [priceRange, setPriceRange] = useState({ min: 0, max: Infinity });
+  const [loading, setLoading] = useState(true);
   const [sinapiData, setSinapiData] = useState<Item[]>([]);
+  const [sicroData, setSicroData] = useState<Item[]>([]);
+  const [selectedSource, setSelectedSource] = useState("both"); // Default: Ambos
+  const [currentPage, setCurrentPage] = useState(1); // Página atual
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/data.json");
-      const data: Item[] = await response.json();
-      setSinapiData(data);
+      setLoading(true);
+      const sinapiResponse = await fetch("/sinapi.json");
+      const sicroResponse = await fetch("/sicro.json");
+      const sinapi = (await sinapiResponse.json()).map((item: Item) => ({
+        ...item,
+        FONTE: "SINAPI",
+      }));
+      const sicro = (await sicroResponse.json()).map((item: Item) => ({
+        ...item,
+        FONTE: "SICRO",
+      }));
+      setSinapiData(sinapi);
+      setSicroData(sicro);
+      setLoading(false);
     };
 
     fetchData();
@@ -29,7 +47,14 @@ const AdvancedSearchPage: React.FC = () => {
   const filteredItems = useMemo(() => {
     const queryWords = query.toLowerCase().split(" ").filter(Boolean);
 
-    return sinapiData.filter((item) => {
+    const sourceData =
+      selectedSource === "sinapi"
+        ? sinapiData
+        : selectedSource === "sicro"
+        ? sicroData
+        : [...sinapiData, ...sicroData];
+
+    return sourceData.filter((item) => {
       const matchesDescription = queryWords.every((word) =>
         item.DESCRICAO.toLowerCase().includes(word)
       );
@@ -41,7 +66,21 @@ const AdvancedSearchPage: React.FC = () => {
 
       return matchesDescription && matchesUnit && matchesPrice;
     });
-  }, [query, unitQuery, priceRange, sinapiData]);
+  }, [query, unitQuery, priceRange, selectedSource, sinapiData, sicroData]);
+
+  const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+
+  const paginatedItems = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredItems.slice(startIndex, endIndex);
+  }, [filteredItems, currentPage]);
+
+  const changePage = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
     <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen">
@@ -69,7 +108,10 @@ const AdvancedSearchPage: React.FC = () => {
             type="text"
             placeholder="Pesquisar descrição..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setCurrentPage(1);
+            }}
             className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md mx-auto"
           />
 
@@ -78,7 +120,10 @@ const AdvancedSearchPage: React.FC = () => {
             type="text"
             placeholder="Pesquisar unidade..."
             value={unitQuery}
-            onChange={(e) => setUnitQuery(e.target.value)}
+            onChange={(e) => {
+              setUnitQuery(e.target.value);
+              setCurrentPage(1);
+            }}
             className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md mx-auto"
           />
 
@@ -110,19 +155,39 @@ const AdvancedSearchPage: React.FC = () => {
               className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-32"
             />
           </div>
+
+          {/* Filtro por base de dados */}
+          <select
+            value={selectedSource}
+            onChange={(e) => {
+              setSelectedSource(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md mx-auto"
+          >
+            <option value="both">Ambos</option>
+            <option value="sinapi">SINAPI</option>
+            <option value="sicro">SICRO</option>
+          </select>
         </div>
         <hr className="my-6 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
-        
-        {/* Exibir resultados somente após a pesquisa */}
-        {query || unitQuery || priceRange.min !== 0 || priceRange.max !== Infinity ? (
+
+        {filteredItems.length > 0 && (
+          <p className="mb-4 text-center text-gray-700 dark:text-gray-300">
+            {filteredItems.length} correspondência
+            {filteredItems.length > 1 ? "s" : ""} encontrada
+            {filteredItems.length > 1 ? "s" : ""}.
+          </p>
+        )}
+
+        {loading ? (
+          <div role="status" className="animate-pulse">
+            <span>🤓🤚 Carregando...</span>
+          </div>
+        ) : (
           <div>
-            {filteredItems.length > 0 ? (
+            {paginatedItems.length > 0 ? (
               <>
-                <p className="mb-4 text-center text-gray-700 dark:text-gray-300">
-                  {filteredItems.length} correspondência
-                  {filteredItems.length > 1 ? "s" : ""} encontrada
-                  {filteredItems.length > 1 ? "s" : ""}.
-                </p>
                 <table className="w-full border-collapse border dark:border-gray-700">
                   <thead>
                     <tr className="bg-gray-50 dark:bg-gray-800">
@@ -138,10 +203,13 @@ const AdvancedSearchPage: React.FC = () => {
                       <th className="border p-2 text-left dark:border-gray-700">
                         Custo
                       </th>
+                      <th className="border p-2 text-left dark:border-gray-700">
+                        Fonte
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredItems.map((item, index) => (
+                    {paginatedItems.map((item, index) => (
                       <tr
                         key={index}
                         className={`hover:bg-gray-100 dark:hover:bg-gray-700 ${
@@ -165,10 +233,34 @@ const AdvancedSearchPage: React.FC = () => {
                             currency: "BRL",
                           }).format(item.CUSTO)}
                         </td>
+                        <td className="border p-2 dark:border-gray-700">
+                          {item.FONTE}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+
+                {/* Paginação */}
+                <div className="flex justify-center mt-6 gap-4">
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => changePage(currentPage - 1)}
+                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded disabled:opacity-50"
+                  >
+                    Anterior
+                  </button>
+                  <span className="px-4 py-2 text-gray-700 dark:text-gray-400">
+                    Página {currentPage} de {totalPages}
+                  </span>
+                  <button
+                    disabled={currentPage === totalPages}
+                    onClick={() => changePage(currentPage + 1)}
+                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded disabled:opacity-50"
+                  >
+                    Próxima
+                  </button>
+                </div>
               </>
             ) : (
               <p className="text-gray-500 dark:text-gray-400">
@@ -176,7 +268,7 @@ const AdvancedSearchPage: React.FC = () => {
               </p>
             )}
           </div>
-        ) : null}
+        )}
       </main>
 
       {/* Rodapé */}

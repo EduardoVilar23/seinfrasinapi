@@ -8,6 +8,7 @@ interface Item {
   DESCRICAO: string;
   UNIDADE: string;
   CUSTO: number;
+  FONTE: string; // Adicionado para indicar a fonte
 }
 
 const ITEMS_PER_PAGE_INITIAL = 30;
@@ -17,14 +18,26 @@ const SearchPage: React.FC = () => {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [sinapiData, setSinapiData] = useState<Item[]>([]);
+  const [sicroData, setSicroData] = useState<Item[]>([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [selectedSource, setSelectedSource] = useState("both"); // Default: SINAPI
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/data.json");
-      const data: Item[] = await response.json();
-      setSinapiData(data);
+      setLoading(true);
+      const sinapiResponse = await fetch("/sinapi.json");
+      const sicroResponse = await fetch("/sicro.json");
+      const sinapi = (await sinapiResponse.json()).map((item: Item) => ({
+        ...item,
+        FONTE: "SINAPI",
+      }));
+      const sicro = (await sicroResponse.json()).map((item: Item) => ({
+        ...item,
+        FONTE: "SICRO",
+      }));
+      setSinapiData(sinapi);
+      setSicroData(sicro);
       setLoading(false);
     };
 
@@ -33,7 +46,15 @@ const SearchPage: React.FC = () => {
 
   const filteredItems = useMemo(() => {
     const queryWords = query.toLowerCase().split(" ").filter(Boolean);
-    return sinapiData.filter((item) =>
+
+    const sourceData =
+      selectedSource === "sinapi"
+        ? sinapiData
+        : selectedSource === "sicro"
+        ? sicroData
+        : [...sinapiData, ...sicroData];
+
+    return sourceData.filter((item) =>
       queryWords.every(
         (word) =>
           item.DESCRICAO.toLowerCase().includes(word) ||
@@ -41,7 +62,7 @@ const SearchPage: React.FC = () => {
           item.CODIGO.includes(word)
       )
     );
-  }, [query, sinapiData]);
+  }, [query, selectedSource, sinapiData, sicroData]);
 
   const itemsPerPage = query ? ITEMS_PER_PAGE_SEARCH : ITEMS_PER_PAGE_INITIAL;
 
@@ -82,7 +103,7 @@ const SearchPage: React.FC = () => {
       <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen transition">
         <div className="flex justify-between items-center mb-4">
           <span className="text-gray-500 dark:text-gray-400">
-            Banco de Dados: PCI.817-01 - SINAPI Custo de Composições Outubro de 2024 (Piauí)
+            Banco de Dados: PCI.817-01 - SINAPI OUT/2024 PIAUÍ e SICRO JUL/2024 NORDESTE
           </span>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
@@ -93,40 +114,50 @@ const SearchPage: React.FC = () => {
         </div>
         <main>
           <div className="mb-6 flex items-center gap-4 flex-col">
-            <Image
-              src="/logo.png"
-              width={200}
-              height={200}
-              alt="dataSIN"
-            />
-            {/* <h1 className="text-2xl font-bold transition">DataSIN - SEINFRA Parnaíba <span className="animate-pulse">🎄</span></h1> */}
+            <Image src="/logo.png" width={200} height={200} alt="dataSIN" />
             <span>DataSIN - Seinfra Parnaíba</span>
-              <input
-                type="text"
-                placeholder="Faça uma pesquisa..."
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="border dark:text-black border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="text-sm">
-                Pesquise por palavras-chave, unidades de medida e/ou código.
+            <span className="text-xs text-blue-700 dark:text-blue-300">atualmente com {filteredItems.length} itens.</span>
+            <input
+              type="text"
+              placeholder="Faça uma pesquisa..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="border dark:text-black border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <span className="text-sm">
+              Pesquise por palavras-chave, unidades de medida e/ou código.
+            </span>
+            <select
+              value={selectedSource}
+              onChange={(e) => setSelectedSource(e.target.value)}
+              className="border border-gray-300 dark:border-gray-700 rounded-md p-2 dark:text-black"
+            >
+              <option value="sinapi">SINAPI</option>
+              <option value="sicro">SICRO</option>
+              <option value="both">Todas as bases de dados</option>
+            </select>
+            <Link href={"/advanced"}>
+              <span className="hover:underline text-blue-500">
+                Pesquisa avançada
               </span>
-              <Link href={'/advanced'}>
-                <span className="hover:underline text-blue-500">Pesquisa avançada</span>
-              </Link>
-            </div>
+            </Link>
+          </div>
           <div>
             <span>
-              🌐 Powerd by <a href="https://eduardovilar.com" className="hover:underline text-blue-700 dark:text-blue-200">eduardovilar.com</a>
+              🌐 Powered by{" "}
+              <a
+                href="https://eduardovilar.com"
+                className="hover:underline text-blue-700 dark:text-blue-200"
+              >
+                eduardovilar.com
+              </a>
             </span>
           </div>
           <hr className="my-4 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
           {filteredItems.length > 0 && query && (
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              {filteredItems.length} correspondência{filteredItems.length > 1 ? 's' : ''}
+              {filteredItems.length} correspondência
+              {filteredItems.length > 1 ? "s" : ""}
             </p>
           )}
           {loading ? (
@@ -140,10 +171,21 @@ const SearchPage: React.FC = () => {
                   <table className="w-full border-collapse border dark:border-gray-700 transition">
                     <thead>
                       <tr className="bg-gray-50 dark:bg-gray-800">
-                        <th className="border p-2 text-left dark:border-gray-700">Código</th>
-                        <th className="border p-2 text-left dark:border-gray-700">Descrição</th>
-                        <th className="border p-2 text-left dark:border-gray-700">Unidade</th>
-                        <th className="border p-2 text-left dark:border-gray-700">Custo</th>
+                      <th className="border p-2 text-left dark:border-gray-700">
+                          Fonte
+                        </th>
+                        <th className="border p-2 text-left dark:border-gray-700">
+                          Código
+                        </th>
+                        <th className="border p-2 text-left dark:border-gray-700">
+                          Descrição
+                        </th>
+                        <th className="border p-2 text-left dark:border-gray-700">
+                          Unidade
+                        </th>
+                        <th className="border p-2 text-left dark:border-gray-700">
+                          Custo
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -151,12 +193,23 @@ const SearchPage: React.FC = () => {
                         <tr
                           key={index}
                           className={`hover:bg-gray-100 dark:hover:bg-gray-700 ${
-                            index % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800"
+                            index % 2 === 0
+                              ? "bg-white dark:bg-gray-900"
+                              : "bg-gray-50 dark:bg-gray-800"
                           }`}
                         >
-                          <td className="border p-2 dark:border-gray-700">{item.CODIGO}</td>
-                          <td className="border p-2 dark:border-gray-700">{item.DESCRICAO}</td>
-                          <td className="border p-2 dark:border-gray-700">{item.UNIDADE}</td>
+                          <td className="border p-2 dark:border-gray-700">
+                            {item.FONTE}
+                          </td>
+                          <td className="border p-2 dark:border-gray-700">
+                            {item.CODIGO}
+                          </td>
+                          <td className="border p-2 dark:border-gray-700">
+                            {item.DESCRICAO}
+                          </td>
+                          <td className="border p-2 dark:border-gray-700">
+                            {item.UNIDADE}
+                          </td>
                           <td className="border p-2 dark:border-gray-700">
                             {new Intl.NumberFormat("pt-BR", {
                               style: "currency",
@@ -167,7 +220,6 @@ const SearchPage: React.FC = () => {
                       ))}
                     </tbody>
                   </table>
-
                   <div className="flex justify-center items-center mt-4 gap-2">
                     <button
                       className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
@@ -218,7 +270,7 @@ const SearchPage: React.FC = () => {
                 </p>
               )}
             </div>
-        )}
+          )}
         </main>
         <footer className="mt-8 p-4 text-center text-gray-700 dark:text-gray-400">
           <p>
