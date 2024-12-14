@@ -85,6 +85,11 @@ const AdvancedSearchPage: React.FC = () => {
   return (
     <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen">
       {/* Cabeçalho */}
+      <div className="flex justify-between items-center mb-4">
+          <span className="text-gray-500 dark:text-gray-400 text-sm">
+            Banco de Dados: PCI.817-01 - SINAPI OUT/2024 PIAUÍ e SICRO JUL/2024 NORDESTE
+          </span>
+        </div>
       <header className="flex flex-col items-center mb-6">
         <Link href={'/'}>
           <Image
@@ -165,7 +170,7 @@ const AdvancedSearchPage: React.FC = () => {
             }}
             className="border border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md mx-auto"
           >
-            <option value="both">Ambos</option>
+            <option value="both">Todas as bases de dados</option>
             <option value="sinapi">SINAPI</option>
             <option value="sicro">SICRO</option>
           </select>
@@ -182,7 +187,7 @@ const AdvancedSearchPage: React.FC = () => {
 
         {loading ? (
           <div role="status" className="animate-pulse">
-            <span>🤓🤚 Carregando...</span>
+            <span>Carregando...</span>
           </div>
         ) : (
           <div>
@@ -191,6 +196,9 @@ const AdvancedSearchPage: React.FC = () => {
                 <table className="w-full border-collapse border dark:border-gray-700">
                   <thead>
                     <tr className="bg-gray-50 dark:bg-gray-800">
+                      <th className="border p-2 text-left dark:border-gray-700">
+                        Fonte
+                      </th>
                       <th className="border p-2 text-left dark:border-gray-700">
                         Código
                       </th>
@@ -202,9 +210,6 @@ const AdvancedSearchPage: React.FC = () => {
                       </th>
                       <th className="border p-2 text-left dark:border-gray-700">
                         Custo
-                      </th>
-                      <th className="border p-2 text-left dark:border-gray-700">
-                        Fonte
                       </th>
                     </tr>
                   </thead>
@@ -219,6 +224,9 @@ const AdvancedSearchPage: React.FC = () => {
                         }`}
                       >
                         <td className="border p-2 dark:border-gray-700">
+                          {item.FONTE}
+                        </td>
+                        <td className="border p-2 dark:border-gray-700">
                           {item.CODIGO}
                         </td>
                         <td className="border p-2 dark:border-gray-700">
@@ -232,9 +240,6 @@ const AdvancedSearchPage: React.FC = () => {
                             style: "currency",
                             currency: "BRL",
                           }).format(item.CUSTO)}
-                        </td>
-                        <td className="border p-2 dark:border-gray-700">
-                          {item.FONTE}
                         </td>
                       </tr>
                     ))}

@@ -102,21 +102,20 @@ const SearchPage: React.FC = () => {
     <div className={`${isDarkMode ? "dark" : ""}`}>
       <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen transition">
         <div className="flex justify-between items-center mb-4">
-          <span className="text-gray-500 dark:text-gray-400">
+          <span className="text-gray-500 dark:text-gray-400 text-sm">
             Banco de Dados: PCI.817-01 - SINAPI OUT/2024 PIAUÍ e SICRO JUL/2024 NORDESTE
           </span>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
-            className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
+            className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-2xl transition hover:bg-gray-400 dark:hover:bg-gray-600"
           >
-            {isDarkMode ? "Modo Claro" : "Modo Escuro"}
+            {isDarkMode ? "☀️ Modo Claro" : "🌑 Modo Escuro"}
           </button>
         </div>
         <main>
           <div className="mb-6 flex items-center gap-4 flex-col">
-            <Image src="/logo.png" width={200} height={200} alt="dataSIN" />
-            <span>DataSIN - Seinfra Parnaíba</span>
-            <span className="text-xs text-blue-700 dark:text-blue-300">atualmente com {filteredItems.length} itens.</span>
+            <Image src="/logo.png" width={200} height={200} alt="dataSIN"/>
+            {/* <span>DataSIN - Seinfra Parnaíba</span> */}
             <input
               type="text"
               placeholder="Faça uma pesquisa..."
@@ -144,12 +143,12 @@ const SearchPage: React.FC = () => {
           </div>
           <div>
             <span>
-              🌐 Powered by{" "}
+              ⚡︎ Powered by{" "}
               <a
                 href="https://eduardovilar.com"
                 className="hover:underline text-blue-700 dark:text-blue-200"
               >
-                eduardovilar.com
+                Eduardo Vilar
               </a>
             </span>
           </div>
@@ -162,7 +161,7 @@ const SearchPage: React.FC = () => {
           )}
           {loading ? (
             <div role="status" className="animate-pulse">
-              <span>🤓🤚 Carregando...</span>
+              <span>Carregando...</span>
             </div>
           ) : (
             <div>
@@ -266,7 +265,7 @@ const SearchPage: React.FC = () => {
                 </>
               ) : (
                 <p className="text-gray-500 dark:text-gray-400">
-                  {`Nenhum resultado para "` + query + `" 😔`}
+                  {`Nenhum resultado para "` + query + `"`}
                 </p>
               )}
             </div>
@@ -297,7 +296,7 @@ const SearchPage: React.FC = () => {
             </a>
           </p>
           <span className="text-xs">
-            Contribua com suas ideias: <a href="mailto:contato@datasin.com.br" className="hover:underline text-blue-700 dark:text-blue-200">contato@datasin.com.br</a>
+            Sugestões ou ideias? Entre em contato: <a href="mailto:contato@datasin.com.br" className="hover:underline text-blue-700 dark:text-blue-200">contato@datasin.com.br</a>
           </span>
         </footer>
       </div>
