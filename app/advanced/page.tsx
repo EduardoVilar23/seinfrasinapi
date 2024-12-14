@@ -100,9 +100,9 @@ const AdvancedSearchPage: React.FC = () => {
             className="mb-4"
           />
         </Link>
-        <h1 className="text-2xl font-bold">Pesquisa Avançada - DataSIN</h1>
+        <h1 className="text-2xl font-bold">Pesquisa Avançada</h1>
         <span className="text-sm text-gray-600 dark:text-gray-400">
-          Busque por palavras-chave, unidades e intervalo de preços.
+          Busque por palavras-chave, unidades e intervalo de custos.
         </span>
       </header>
 
@@ -179,8 +179,8 @@ const AdvancedSearchPage: React.FC = () => {
 
         {filteredItems.length > 0 && (
           <p className="mb-4 text-center text-gray-700 dark:text-gray-300">
-            {filteredItems.length} correspondência
-            {filteredItems.length > 1 ? "s" : ""} encontrada
+            {filteredItems.length} {' '}
+            {filteredItems.length > 1 ? "itens" : "item"} indexado
             {filteredItems.length > 1 ? "s" : ""}.
           </p>
         )}
