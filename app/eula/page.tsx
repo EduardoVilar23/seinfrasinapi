@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export const metadata = {
@@ -74,7 +75,9 @@ export default function TermsPage() {
 
       <div className="mt-5">
         <span className="text-blue-500 hover:underline">
-          <a href="/">⏎ Retornar ao DataSIN</a>
+          <Link href={"/"}>
+            <span>⏎ Retornar ao DataSIN</span>
+          </Link>
         </span>
       </div>
     </main>
