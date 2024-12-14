@@ -15,8 +15,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "dataSIN - Pesquisas na SINAPI",
-  description: "Faça pesquisas na SINAPI-PI de forma mais rápida utilizando palavras chave.",
+  title: "DataSIN",
+  description: "Faça pesquisas em bases de dados de forma mais rápida utilizando palavras chave.",
 };
 
 export default function RootLayout({
