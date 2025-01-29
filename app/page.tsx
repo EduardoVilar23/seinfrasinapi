@@ -20,6 +20,7 @@ const SearchPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sinapiData, setSinapiData] = useState<Item[]>([]);
   const [sicroData, setSicroData] = useState<Item[]>([]);
+  const [pregaoData, setPregaoData] = useState<Item[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [selectedSource, setSelectedSource] = useState("both"); // Default: SINAPI
 
@@ -28,6 +29,7 @@ const SearchPage: React.FC = () => {
       setLoading(true);
       const sinapiResponse = await fetch("/sinapi.json");
       const sicroResponse = await fetch("/sicro.json");
+      const pregaoResponse = await fetch("/pregao.json");
       const sinapi = (await sinapiResponse.json()).map((item: Item) => ({
         ...item,
         FONTE: "SINAPI",
@@ -36,8 +38,13 @@ const SearchPage: React.FC = () => {
         ...item,
         FONTE: "SICRO",
       }));
+      const pregao = (await pregaoResponse.json()).map((item: Item) => ({
+        ...item,
+        FONTE: "PREGÃO 133/2023 PMP",
+      }));
       setSinapiData(sinapi);
       setSicroData(sicro);
+      setPregaoData(pregao);
       setLoading(false);
     };
 
@@ -52,7 +59,10 @@ const SearchPage: React.FC = () => {
         ? sinapiData
         : selectedSource === "sicro"
         ? sicroData
-        : [...sinapiData, ...sicroData];
+        : selectedSource === "pregao"
+        ? pregaoData
+        :
+        [...sinapiData, ...sicroData, ...pregaoData];
 
     return sourceData.filter((item) =>
       queryWords.every(
@@ -62,7 +72,7 @@ const SearchPage: React.FC = () => {
           item.CODIGO.includes(word)
       )
     );
-  }, [query, selectedSource, sinapiData, sicroData]);
+  }, [query, selectedSource, sinapiData, sicroData, pregaoData]);
 
   const itemsPerPage = query ? ITEMS_PER_PAGE_SEARCH : ITEMS_PER_PAGE_INITIAL;
 
@@ -103,7 +113,7 @@ const SearchPage: React.FC = () => {
       <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen transition">
         <div className="flex justify-between items-center mb-4">
           <span className="text-gray-500 dark:text-gray-400 text-sm">
-            Banco de Dados: PCI.817-01 - SINAPI OUT/2024 PIAUÍ e SICRO JUL/2024 NORDESTE
+          Banco de Dados: SINAPI OUT/2024 Piauí - SICRO JUL/2024 Nordeste - Pregão Eletrônico 133/2023 (PMP)
           </span>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
@@ -133,6 +143,7 @@ const SearchPage: React.FC = () => {
             >
               <option value="sinapi">SINAPI</option>
               <option value="sicro">SICRO</option>
+              <option value="pregao">PREGÃO 133/2023 PMP</option>
               <option value="both">Todas as bases de dados</option>
             </select>
             <Link href={"/advanced"}>
