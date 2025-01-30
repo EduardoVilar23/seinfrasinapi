@@ -17,7 +17,7 @@ const ITEMS_PER_PAGE_SEARCH = 50;
 
 const SearchPage: React.FC = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
 
   // // Pegando parâmetros da URL
   // const initialQuery = searchParams.get("q") || "";
