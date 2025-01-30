@@ -17,7 +17,7 @@ const ITEMS_PER_PAGE_SEARCH = 50;
 
 const SearchPage: React.FC = () => {
     return (
-      <Suspense fallback={<div>Carregando pesquisa...</div>}>
+      <Suspense fallback={<div/>}>
         <SearchContent />
       </Suspense>
     );
