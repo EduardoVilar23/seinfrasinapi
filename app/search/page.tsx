@@ -27,7 +27,7 @@ const SearchContent: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") || "";
-  const initialSource = searchParams.get("base") || "both";
+  const initialSource = searchParams.get("base") || "all";
   
   const [query, setQuery] = useState(initialQuery);
   const [selectedSource, setSelectedSource] = useState(initialSource);
@@ -169,7 +169,7 @@ const SearchContent: React.FC = () => {
               <option value="sinapi">SINAPI</option>
               <option value="sicro">SICRO</option>
               <option value="pregao1332023">PREGÃO 133/2023 PMP</option>
-              <option value="both">Todas as bases de dados</option>
+              <option value="all">Todas as bases de dados</option>
             </select>
             <Link href={"/advanced"}>
               <span className="hover:underline text-blue-500">
