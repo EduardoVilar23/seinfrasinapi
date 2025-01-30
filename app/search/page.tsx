@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, Suspense } from "react";
 
 interface Item {
   CODIGO: string;
@@ -16,6 +16,14 @@ const ITEMS_PER_PAGE_INITIAL = 30;
 const ITEMS_PER_PAGE_SEARCH = 50;
 
 const SearchPage: React.FC = () => {
+    return (
+      <Suspense fallback={<div>Carregando pesquisa...</div>}>
+        <SearchContent />
+      </Suspense>
+    );
+  };
+
+const SearchContent: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") || "";
