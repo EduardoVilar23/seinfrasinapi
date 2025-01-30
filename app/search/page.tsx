@@ -84,7 +84,7 @@ const SearchContent: React.FC = () => {
         ? sinapiData
         : selectedSource === "sicro"
         ? sicroData
-        : selectedSource === "pregao"
+        : selectedSource === "pregao1332023"
         ? pregaoData
         :
         [...sinapiData, ...sicroData, ...pregaoData];
