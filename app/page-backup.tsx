@@ -19,9 +19,9 @@ const SearchPage: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Pegando parâmetros da URL
-  const initialQuery = searchParams.get("q") || "";
-  const initialSource = searchParams.get("base") || "both"; // Se não houver, usa "both"
+  // // Pegando parâmetros da URL
+  // const initialQuery = searchParams.get("q") || "";
+  // const initialSource = searchParams.get("base") || "both"; // Se não houver, usa "both"
   
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
