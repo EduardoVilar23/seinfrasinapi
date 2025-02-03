@@ -20,6 +20,7 @@ const AdvancedSearchPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [sinapiData, setSinapiData] = useState<Item[]>([]);
   const [sicroData, setSicroData] = useState<Item[]>([]);
+  const [pregaoData, setPregaoData] = useState<Item[]>([]);
   const [selectedSource, setSelectedSource] = useState("both"); // Default: Ambos
   const [currentPage, setCurrentPage] = useState(1); // Página atual
 
@@ -28,6 +29,7 @@ const AdvancedSearchPage: React.FC = () => {
       setLoading(true);
       const sinapiResponse = await fetch("/sinapi.json");
       const sicroResponse = await fetch("/sicro.json");
+      const pregaoResponse = await fetch("/pregao.json");
       const sinapi = (await sinapiResponse.json()).map((item: Item) => ({
         ...item,
         FONTE: "SINAPI",
@@ -36,8 +38,13 @@ const AdvancedSearchPage: React.FC = () => {
         ...item,
         FONTE: "SICRO",
       }));
+      const pregao = (await pregaoResponse.json()).map((item: Item) => ({
+        ...item,
+        FONTE: "PREGÃO 133/2023 PMP",
+      }));
       setSinapiData(sinapi);
       setSicroData(sicro);
+      setPregaoData(pregao);
       setLoading(false);
     };
 
@@ -52,7 +59,9 @@ const AdvancedSearchPage: React.FC = () => {
         ? sinapiData
         : selectedSource === "sicro"
         ? sicroData
-        : [...sinapiData, ...sicroData];
+        : selectedSource == "pregao"
+        ? pregaoData
+        : [...sinapiData, ...sicroData, ...pregaoData];
 
     return sourceData.filter((item) => {
       const matchesDescription = queryWords.every((word) =>
@@ -66,7 +75,7 @@ const AdvancedSearchPage: React.FC = () => {
 
       return matchesDescription && matchesUnit && matchesPrice;
     });
-  }, [query, unitQuery, priceRange, selectedSource, sinapiData, sicroData]);
+  }, [query, unitQuery, priceRange, selectedSource, sinapiData, sicroData, pregaoData]);
 
   const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
 
@@ -87,7 +96,7 @@ const AdvancedSearchPage: React.FC = () => {
       {/* Cabeçalho */}
       <div className="flex justify-between items-center mb-4">
           <span className="text-gray-500 dark:text-gray-400 text-sm">
-            Banco de Dados: PCI.817-01 - SINAPI OUT/2024 PIAUÍ e SICRO JUL/2024 NORDESTE
+          Banco de Dados: SINAPI OUT/2024 Piauí - SICRO JUL/2024 Nordeste - Pregão Eletrônico 133/2023 (PMP)
           </span>
         </div>
       <header className="flex flex-col items-center mb-6">
@@ -173,6 +182,7 @@ const AdvancedSearchPage: React.FC = () => {
             <option value="both">Todas as bases de dados</option>
             <option value="sinapi">SINAPI</option>
             <option value="sicro">SICRO</option>
+            <option value="pregao">PREGÃO 133/2023 PMP</option>
           </select>
         </div>
         <hr className="my-6 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
