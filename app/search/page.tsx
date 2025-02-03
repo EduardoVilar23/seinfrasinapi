@@ -138,7 +138,7 @@ const SearchContent: React.FC = () => {
       <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen transition">
         <div className="flex justify-between items-center mb-4">
           <span className="text-gray-500 dark:text-gray-400 text-sm">
-          Banco de Dados: SINAPI OUT/2024 Piauí - SICRO JUL/2024 Nordeste - Pregão Eletrônico 133/2023 (PMP)
+          Banco de Dados: SINAPI DEZ/2024 Piauí - SICRO JUL/2024 Nordeste - Pregão Eletrônico 133/2023 (PMP)
           </span>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}

@@ -96,7 +96,7 @@ const AdvancedSearchPage: React.FC = () => {
       {/* Cabeçalho */}
       <div className="flex justify-between items-center mb-4">
           <span className="text-gray-500 dark:text-gray-400 text-sm">
-          Banco de Dados: SINAPI OUT/2024 Piauí - SICRO JUL/2024 Nordeste - Pregão Eletrônico 133/2023 (PMP)
+          Banco de Dados: SINAPI DEZ/2024 Piauí - SICRO JUL/2024 Nordeste - Pregão Eletrônico 133/2023 (PMP)
           </span>
         </div>
       <header className="flex flex-col items-center mb-6">
