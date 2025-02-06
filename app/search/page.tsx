@@ -144,7 +144,7 @@ const SearchContent: React.FC = () => {
             onClick={() => setIsDarkMode(!isDarkMode)}
             className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-2xl transition hover:bg-gray-400 dark:hover:bg-gray-600"
           >
-            {isDarkMode ? "☀️ Modo Claro" : "🌑 Modo Escuro"}
+            {isDarkMode ? "☀️ Modo Claro" : "Modo Escuro"}
           </button>
         </div>
         <main>
@@ -161,16 +161,19 @@ const SearchContent: React.FC = () => {
             <span className="text-sm">
               Pesquise por palavras-chave, unidades de medida e/ou código.
             </span>
-            <select
-              value={selectedSource}
-              onChange={(e) => setSelectedSource(e.target.value)}
-              className="border border-gray-300 dark:border-gray-700 rounded-md p-2 dark:text-black"
-            >
-              <option value="sinapi">SINAPI</option>
-              <option value="sicro">SICRO</option>
-              <option value="pregao1332023">PREGÃO 133/2023 PMP</option>
-              <option value="all">Todas as bases de dados</option>
-            </select>
+            <form className="appearance-none flex flex-col items-center text-xs">
+              <label>Filtrar Origem</label>
+              <select
+                value={selectedSource}
+                onChange={(e) => setSelectedSource(e.target.value)}
+                className="border border-gray-300 dark:border-gray-700 rounded-md p-2 dark:text-black appearance-none"
+              >
+                <option value="sinapi">SINAPI</option>
+                <option value="sicro">SICRO</option>
+                <option value="pregao1332023">PREGÃO 133/2023 PMP</option>
+                <option value="all">Todas as bases de dados</option>
+              </select>
+            </form>
             <Link href={"/advanced"}>
               <span className="hover:underline text-blue-500">
                 Pesquisa avançada
@@ -325,10 +328,10 @@ const SearchContent: React.FC = () => {
             </a>
             <span> | </span>
             <a
-              href="https://github.com/EduardoVilar23/seinfrasinapi"
+              href="/privacy"
               className="text-blue-700 hover:underline dark:text-blue-200"
             >
-              GitHub
+              Privacidade
             </a>
           </p>
           <span className="text-xs">

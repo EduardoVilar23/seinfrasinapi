@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 export const metadata = {
   title: "Termos de Uso - DataSIN",
@@ -8,7 +9,18 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
-    <main className="p-6 font-sans text-gray-900 dark:text-white dark:bg-gray-900 bg-white min-h-screen">
+    <main className="p-6 font-sans text-gray-900 dark:text-white dark:bg-gray-900 bg-white min-h-screen max-w-3xl mx-auto">
+      <div className="my-10">
+        <Link href={'/'}>
+            <Image
+              src="/logo.png"
+              width={200}
+              height={200}
+              alt="dataSIN"
+              className="mb-4"
+            />
+        </Link>
+      </div>
       <h1 className="text-3xl font-bold mb-4">Termos de Uso</h1>
       <p className="mb-4">
         Bem-vindo ao sistema DataSIN. Este documento descreve os termos e condições de uso aplicáveis ao uso deste sistema. Ao acessar ou utilizar qualquer funcionalidade do DataSIN ("Sistema"), você declara ter lido, compreendido e aceito os presentes Termos de Uso. Caso não concorde, solicitamos que interrompa imediatamente o uso.
@@ -51,7 +63,7 @@ export default function TermsPage() {
 
       <h2 className="text-2xl font-semibold mt-6 mb-2">6. Privacidade e Proteção de Dados</h2>
       <p className="mb-4">
-        O DataSIN respeita a sua privacidade. Qualquer informação pessoal coletada durante o uso do Sistema será tratada em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018). Para mais detalhes, consulte nossa Política de Privacidade.
+        O DataSIN respeita a sua privacidade. Qualquer informação pessoal coletada durante o uso do Sistema será tratada em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018). Para mais detalhes, consulte nossa <Link href={'/privacy'}> <span className="text-blue-500 hover:underline">Política de Privacidade</span></Link>.
       </p>
 
       <h2 className="text-2xl font-semibold mt-6 mb-2">7. Alterações nos Termos de Uso</h2>
