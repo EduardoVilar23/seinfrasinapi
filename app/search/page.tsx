@@ -142,31 +142,40 @@ const SearchContent: React.FC = () => {
           </span>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
-            className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-2xl transition hover:bg-gray-400 dark:hover:bg-gray-600"
+            className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-xl transition hover:bg-gray-400 dark:hover:bg-gray-600"
           >
-            {isDarkMode ? "☀️ Modo Claro" : "Modo Escuro"}
+            {isDarkMode ? "Modo Claro" : "Modo Escuro"}
           </button>
         </div>
         <main>
           <div className="mb-6 flex items-center gap-4 flex-col">
             <Image src="/logo.png" width={200} height={200} alt="dataSIN"/>
             {/* <span>DataSIN - Seinfra Parnaíba</span> */}
-            <input
-              type="text"
-              placeholder="Faça uma pesquisa..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="border dark:text-black border-gray-300 dark:border-gray-700 rounded-md p-2 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <span className="text-sm">
+            <form className="max-w-md mx-auto w-full">
+              <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
+              <div className="relative">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <path stroke="currentColor" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                  </svg>
+              </div>
+                <input
+                  type="text"
+                  placeholder="Faça uma pesquisa..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+              </div>
+            </form>
+            <span className="text-sm opacity-60">
               Pesquise por palavras-chave, unidades de medida e/ou código.
             </span>
             <form className="appearance-none flex flex-col items-center text-xs">
-              <label>Filtrar Origem</label>
               <select
                 value={selectedSource}
                 onChange={(e) => setSelectedSource(e.target.value)}
-                className="border border-gray-300 dark:border-gray-700 rounded-md p-2 dark:text-black appearance-none"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 appearance-none cursor-pointer hover:scale-105 transition"
               >
                 <option value="sinapi">SINAPI</option>
                 <option value="sicro">SICRO</option>
