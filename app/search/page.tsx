@@ -189,16 +189,18 @@ const SearchContent: React.FC = () => {
               </span>
             </Link>
           </div>
-          <div>
+          <div className="flex flex-row items-center gap-2">
+            <Image src="/assets/eduardo.png" width={50} height={50} alt="image description" className="rounded-full w-7 h-7 transition hover:scale-125" />
             <span>
-              ⚡︎ Powered by{" "}
+              Powered by{" "}
+            </span>
+              {/* <Image src="/logo.png" width={200} height={200} alt="dataSIN"/> */}
               <a
                 href="https://eduardovilar.com"
                 className="hover:underline text-blue-700 dark:text-blue-200"
               >
                 Eduardo Vilar
               </a>
-            </span>
           </div>
           <hr className="my-4 h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
           {filteredItems.length > 0 && query && (
