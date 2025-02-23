@@ -158,7 +158,22 @@ const SearchContent: React.FC = () => {
       <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen transition">
         <div className="flex justify-between items-center mb-4">
           <span className="text-gray-500 dark:text-gray-400 text-sm">
-          Banco de Dados: SINAPI DEZ/2024 Piauí - SICRO JUL/2024 Nordeste - Pregão Eletrônico 133/2023 (PMP)
+          Bases de Dados:{' '}
+
+          {
+            loading ? 
+            <span>Carregando...</span>
+            :
+            availableBases ?
+            availableBases.map((item) => {
+              return(
+                <span key={item.id}>{item.name} | </span>
+              )
+            })
+            :
+            <span>Indisponível</span>
+          }
+          
           </span>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
@@ -191,20 +206,31 @@ const SearchContent: React.FC = () => {
             <span className="text-sm opacity-60">
               Pesquise por palavras-chave, unidades de medida e/ou código.
             </span>
-            <form className="appearance-none flex flex-col items-center text-xs">
-              <select
-              value={selectedSource}
-              onChange={(e) => setSelectedSource(e.target.value)}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white appearance-none"
-            >
-              <option value="all">Todas as bases de dados</option>
-              {availableBases.map((base) => (
-                <option key={base.id} value={base.name}>
-                  {base.name}
-                </option>
-              ))}
-            </select>
-            </form>
+            {
+              loading == false ?
+              <form className="appearance-none flex flex-col items-center text-xs">
+                <select
+                value={selectedSource}
+                onChange={(e) => setSelectedSource(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white appearance-none"
+              >
+                <option value="all">Todas as bases de dados</option>
+                {availableBases.map((base) => (
+                  <option key={base.id} value={base.name}>
+                    {base.name}
+                  </option>
+                ))}
+              </select>
+              </form>
+              :
+                <select
+                value="Carregando..."
+                onChange={() => {}}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white appearance-none"
+              >
+                <option value="null">Carregando...</option>
+              </select>
+            }
             <Link href={"/advanced"}>
               <span className="hover:underline text-blue-500">
                 Pesquisa avançada
@@ -342,6 +368,17 @@ const SearchContent: React.FC = () => {
                   </div>
                 </>
               ) : (
+                error ?
+                <div id="toast-default" className="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800" role="alert">
+                    <div className="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                        </svg>
+                        <span className="sr-only">Alert icon</span>
+                    </div>
+                    <div className="ms-3 text-sm font-normal">Erro ao carregar baeses. Tente novamente.</div>
+                </div>
+                :
                 <p className="text-gray-500 dark:text-gray-400">
                   {`Nenhum resultado para "` + query + `"`}
                 </p>
