@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState, useEffect, useMemo, Suspense, use } from "react";
+import React, { useState, useEffect, useMemo, Suspense } from "react";
 import axios from 'axios';
 
 interface Item {
@@ -33,9 +33,6 @@ const SearchContent: React.FC = () => {
   const [query, setQuery] = useState(initialQuery);
   const [selectedSource, setSelectedSource] = useState(initialSource);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sinapiData, setSinapiData] = useState<Item[]>([]);
-  const [sicroData, setSicroData] = useState<Item[]>([]);
-  const [pregaoData, setPregaoData] = useState<Item[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
   interface Base {
     id: string;
@@ -84,7 +81,7 @@ const SearchContent: React.FC = () => {
         console.error("Erro ao buscar as bases:", error);
         setError("Falha ao carregar as bases de dados. Tente novamente.");
       }
-  
+      console.log(error);
       setLoading(false);
     };
   
