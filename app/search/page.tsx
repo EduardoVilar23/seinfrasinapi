@@ -3,15 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect, useMemo, Suspense } from "react";
-import axios from 'axios';
-
-interface Item {
-  CODIGO: string;
-  DESCRICAO: string;
-  UNIDADE: string;
-  CUSTO: number;
-  FONTE: string; // Adicionado para indicar a fonte
-}
+import { fetchData, Item } from "../utils/fetchData";
+import { filterData } from "../utils/filterData";
 
 const ITEMS_PER_PAGE_INITIAL = 30;
 const ITEMS_PER_PAGE_SEARCH = 50;
@@ -44,48 +37,24 @@ const SearchContent: React.FC = () => {
   const [loading, setLoading] = useState(true); // Indica se os dados estão sendo carregados
   const [error, setError] = useState<string | null>(null); // Para capturar e exibir erros de carregamento
 
-
+  //Carregar dados da DB
   useEffect(() => {
-    const fetchData = async () => {
+    const loadBases = async () => {
       setLoading(true);
-      setError(null); // Reseta o erro ao iniciar uma nova busca
-  
+      setError(null);
+      
       try {
-        // Buscar a lista de bases disponíveis
-        const response = await axios.get(
-          "https://raw.githubusercontent.com/EduardoVilar23/datasin-db/refs/heads/master/bases.json"
-        );
-        const bases = response.data;
+        const { bases, data } = await fetchData();
         setAvailableBases(bases);
-  
-        // Criar um array de promessas para buscar os dados de cada base
-        const fetchPromises = bases.map(async (base: { id: string; name: string; url: string }) => {
-          try {
-            const baseResponse = await axios.get(base.url);
-            return baseResponse.data.map((item: Item) => ({
-              ...item,
-              FONTE: base.name,
-            }));
-          } catch (baseError) {
-            console.error(`Erro ao carregar a base ${base.name}:`, baseError);
-            return []; // Retorna um array vazio caso haja erro em uma base específica
-          }
-        });
-  
-        // Aguarda todas as bases serem carregadas
-        const loadedData = await Promise.all(fetchPromises);
-  
-        // Combina os dados de todas as bases e atualiza o estado
-        setLoadedData(loadedData.flat());
+        setLoadedData(data);
       } catch (error) {
-        console.error("Erro ao buscar as bases:", error);
-        setError("Falha ao carregar as bases de dados. Tente novamente.");
+        setError("Falha ao carregar as bases de dados.");
       }
-      console.log(error);
+      
       setLoading(false);
     };
-  
-    fetchData();
+
+    loadBases();
   }, []);
 
   // Atualiza a URL quando a pesquisa ou base muda
@@ -99,26 +68,14 @@ const SearchContent: React.FC = () => {
     setSelectedSource(initialSource);
   }, [searchParams]);
 
-  const filteredItems = useMemo(() => {
-    if (!query) return loadedData; // Se não há pesquisa, mostra tudo
-  
-    const queryWords = query.toLowerCase().split(" ").filter(Boolean);
-  
-    const sourceData =
-      selectedSource === "all"
-        ? loadedData
-        : loadedData.filter((item) => item.FONTE === selectedSource);
-  
-    return sourceData.filter((item) =>
-      queryWords.every(
-        (word) =>
-          item.DESCRICAO.toLowerCase().includes(word) ||
-          item.UNIDADE.toLowerCase().includes(word) ||
-          item.CODIGO.includes(word)
-      )
-    );
-  }, [query, selectedSource, loadedData]);
+  //Função de busca/filtragem dos itens
+  const filteredItems = useMemo(() => filterData(query, selectedSource, loadedData), [
+    query,
+    selectedSource,
+    loadedData,
+  ]);
 
+  //Paginação dos itens
   const itemsPerPage = query ? ITEMS_PER_PAGE_SEARCH : ITEMS_PER_PAGE_INITIAL;
 
   const paginatedItems = useMemo(() => {
@@ -376,7 +333,7 @@ const SearchContent: React.FC = () => {
                         </svg>
                         <span className="sr-only">Alert icon</span>
                     </div>
-                    <div className="ms-3 text-sm font-normal">Erro ao carregar baeses. Tente novamente.</div>
+                    <div className="ms-3 text-sm font-normal">Erro ao carregar os dados.</div>
                 </div>
                 :
                 <p className="text-gray-500 dark:text-gray-400">
