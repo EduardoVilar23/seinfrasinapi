@@ -35,6 +35,7 @@ const AdvancedSearchPage: React.FC = () => {
         const { bases, data } = await fetchData();
         setAvailableBases(bases);
         setLoadedData(data);
+        // eslint-disable-next-line
       } catch (error: any) {
         setError(error.message);
       }
