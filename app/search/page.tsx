@@ -35,6 +35,7 @@ const SearchContent: React.FC = () => {
   const [availableBases, setAvailableBases] = useState<Base[]>([]); // Lista das bases disponíveis
   const [loadedData, setLoadedData] = useState<Item[]>([]); // Dados combinados das bases carregadas
   const [loading, setLoading] = useState(true); // Indica se os dados estão sendo carregados
+  // eslint-disable-next-line
   const [error, setError] = useState<string | null>(null); // Para capturar e exibir erros de carregamento
 
   //Carregar dados da DB
