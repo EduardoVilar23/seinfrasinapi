@@ -35,21 +35,20 @@ const SearchContent: React.FC = () => {
   const [availableBases, setAvailableBases] = useState<Base[]>([]); // Lista das bases disponíveis
   const [loadedData, setLoadedData] = useState<Item[]>([]); // Dados combinados das bases carregadas
   const [loading, setLoading] = useState(true); // Indica se os dados estão sendo carregados
-  // eslint-disable-next-line
-  const [error, setError] = useState<string | null>(null); // Para capturar e exibir erros de carregamento
+  const [loadError, setLoadError] = useState<string | null>(null); // Para capturar e exibir erros de carregamento
 
   //Carregar dados da DB
   useEffect(() => {
     const loadBases = async () => {
       setLoading(true);
-      setError(null);
+      setLoadError(null);
       
       try {
         const { bases, data } = await fetchData();
         setAvailableBases(bases);
         setLoadedData(data);
       } catch (error) {
-        setError("Falha ao carregar as bases de dados.");
+        setLoadError("Falha ao carregar as bases de dados.");
       }
       
       setLoading(false);
@@ -326,7 +325,7 @@ const SearchContent: React.FC = () => {
                   </div>
                 </>
               ) : (
-                error ?
+                loadError ?
                 <div id="toast-default" className="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800" role="alert">
                     <div className="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
