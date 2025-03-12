@@ -56,15 +56,15 @@ const AdvancedSearchPage: React.FC = () => {
   // }, [query, unitQuery, priceRange, selectedSource, loadedData]);
 
   const filteredItems = useMemo(() => {
-    console.log("🔍 Parâmetros passados para filterData:");
-    console.log("Query:", query);
-    console.log("Selected Source:", selectedSource);
-    console.log("Loaded Data:", loadedData);
-    console.log("Unit Query:", unitQuery);
-    console.log("Price Range:", priceRange);
+    // console.log("🔍 Parâmetros passados para filterData:");
+    // console.log("Query:", query);
+    // console.log("Selected Source:", selectedSource);
+    // console.log("Loaded Data:", loadedData);
+    // console.log("Unit Query:", unitQuery);
+    // console.log("Price Range:", priceRange);
   
     const filtered = filterData(query, selectedSource, loadedData, unitQuery, priceRange);
-    console.log("Itens filtrados:", filtered); // ✅ Verifica os itens após a filtragem
+    // console.log("Itens filtrados:", filtered); // ✅ Verifica os itens após a filtragem
     return filtered;
   }, [query, unitQuery, priceRange, selectedSource, loadedData]);
 
@@ -90,7 +90,7 @@ const AdvancedSearchPage: React.FC = () => {
           Bases de Dados:{' '}
 
           {
-            loading ? 
+            loading && error == null ? 
             <span>Carregando...</span>
             :
             availableBases ?
