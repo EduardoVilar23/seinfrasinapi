@@ -49,6 +49,7 @@ const SearchContent: React.FC = () => {
         setLoadedData(data);
       } catch (error) {
         setLoadError("Falha ao carregar as bases de dados.");
+        console.log(error)
       }
       
       setLoading(false);
