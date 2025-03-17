@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState, useEffect, useMemo, Suspense } from "react";
 import { fetchData, Item } from "../utils/fetchData";
 import { filterData } from "../utils/filterData";
+import Popup from "../components/popup";
 
 const ITEMS_PER_PAGE_INITIAL = 30;
 const ITEMS_PER_PAGE_SEARCH = 50;
@@ -26,7 +27,13 @@ const SearchContent: React.FC = () => {
   const [query, setQuery] = useState(initialQuery);
   const [selectedSource, setSelectedSource] = useState(initialSource);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);
+  const [aboutData, setAboutData] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsDarkMode(localStorage.getItem("theme") === "dark");
+    }
+  }, []);
   interface Base {
     id: string;
     name: string;
@@ -36,6 +43,12 @@ const SearchContent: React.FC = () => {
   const [loadedData, setLoadedData] = useState<Item[]>([]); // Dados combinados das bases carregadas
   const [loading, setLoading] = useState(true); // Indica se os dados estão sendo carregados
   const [loadError, setLoadError] = useState<string | null>(null); // Para capturar e exibir erros de carregamento
+  
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+    }
+  }, [isDarkMode]);
 
   //Carregar dados da DB
   useEffect(() => {
@@ -112,10 +125,10 @@ const SearchContent: React.FC = () => {
   };
 
   return (
-    <div className={`${isDarkMode ? "dark" : ""}`}>
+    <div className={isDarkMode === null ? "" : isDarkMode ? "dark" : ""}>
       <div className="p-6 font-sans dark:bg-gray-900 dark:text-white bg-white text-gray-900 min-h-screen transition">
         <div className="flex justify-between items-center mb-4">
-          <span className="text-gray-500 dark:text-gray-400 text-sm">
+          {/* <span className="text-gray-500 dark:text-gray-400 text-sm">
           Bases de Dados:{' '}
 
           {
@@ -132,12 +145,42 @@ const SearchContent: React.FC = () => {
             <span>Indisponível</span>
           }
           
-          </span>
+          </span> */}
+          <div onClick={() => {setAboutData(true)}}>
+              <span className="hover:underline text-blue-500 cursor-pointer">
+                Sobre os Dados
+                <Popup isOpen={aboutData} onClose={() => {setAboutData(false)}} title="Os dados do DataSIN">
+                  O DataSIN combina dados públicos com informações provenientes de registros de preços para oferecer uma base de consulta abrangente e confiável.
+                  <div className="mt-5 mb-5 flex flex-col gap-1">
+                    {
+                      loading ?
+                      <span>Carregando...</span>
+                      :
+                      availableBases ?
+                      availableBases.map((item) => {
+                        return(
+                          <span key={item.id} className="text-sm">• {item.name}</span>
+                        )
+                      })
+                      :
+                      <span>Indisponível</span>
+                    }
+                  </div>
+                  Consulte <Link className="hover:underline text-blue-500" href={'https://www.caixa.gov.br/poder-publico/modernizacao-gestao/sinapi/Paginas/default.aspx'}>SINAPI</Link> e <Link className="hover:underline text-blue-500" href={'https://www.gov.br/dnit/pt-br/assuntos/planejamento-e-pesquisa/custos-e-pagamentos/custos-e-pagamentos-dnit/sistemas-de-custos/sicro'}>SICRO</Link>.
+                </Popup>
+              </span>
+          </div>
           <button
-            onClick={() => setIsDarkMode(!isDarkMode)}
+            onClick={() => {
+              if (isDarkMode !== null) {
+                const newTheme = !isDarkMode;
+                setIsDarkMode(newTheme);
+                localStorage.setItem("theme", newTheme ? "dark" : "light");
+              }
+            }}
             className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-xl transition hover:bg-gray-400 dark:hover:bg-gray-600"
           >
-            {isDarkMode ? "Modo Claro" : "Modo Escuro"}
+            {isDarkMode === null ? "Carregando..." : isDarkMode ? "Modo Claro" : "Modo Escuro"}
           </button>
         </div>
         <main>
