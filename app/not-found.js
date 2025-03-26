@@ -6,7 +6,7 @@ export default function Custom404() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
         {/* Logo */}
         <Image className="w-32 h-auto mb-6" src="/logo.png" width={200} height={200} alt="dataSIN"/>
-        <h1 className="text-8xl text-amber-500 font-bold mb-4">404</h1>
+        <Image className="w-44 h-auto mb-6" src="/assets/404.png" width={600} height={600} alt="dataSIN"/>
         <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
           Oops! A página que você está procurando não foi encontrada.
         </p>

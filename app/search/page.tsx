@@ -185,7 +185,7 @@ const SearchContent: React.FC = () => {
         </div>
         <main>
           <div className="mb-6 flex items-center gap-4 flex-col">
-            <Image src="/logo.png" width={200} height={200} alt="dataSIN"/>
+            <Image src="/logo2.png" width={200} height={200} alt="dataSIN"/>
             {/* <span>DataSIN - Seinfra Parnaíba</span> */}
             <form className="max-w-md mx-auto w-full">
               <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
