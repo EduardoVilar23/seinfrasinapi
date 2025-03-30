@@ -64,11 +64,8 @@ export default function V2TestPage() {
   const totalPages = Math.ceil(totalRows / limit);
 
   const switchDb = () => {
-    selectedBaseName == "SINAPI" ?
-    setSelectedBaseName("SICRO")
-    :
-    setSelectedBaseName("SINAPI")
-  }
+    setSelectedBaseName(selectedBaseName === "SINAPI" ? "SICRO" : "SINAPI");
+  };
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
