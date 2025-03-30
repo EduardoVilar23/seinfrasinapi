@@ -30,7 +30,7 @@ export default function V2TestPage() {
       setItems(result.items);
       setTotalRows(result.total);
       setCurrentPage(page);
-    } catch (err) {
+    } catch {
       setError("Erro ao carregar itens.");
     } finally {
       setLoading(false);
@@ -47,7 +47,7 @@ export default function V2TestPage() {
         if (base) {
           setSelectedBase(base);
         }
-      } catch (err) {
+      } catch {
         setError("Erro ao carregar bases.");
       }
     };
